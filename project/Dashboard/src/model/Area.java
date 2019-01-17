@@ -10,18 +10,19 @@ import dao.DatabaseException;
 public class Area extends Aggregate<Building> {
 	private int IdCity;
 	private String name;
+	private City city;
 	
-	public Area(int id) {
+	public Area(int id){
 		super(id);
 	}
 	
-	public Area(int idArea, int IdCity, String areaName) {
+	public Area(int idArea, int IdCity, String areaName, City city) throws DatabaseException, InterruptedException {
 		super(idArea);
+		getBuildings();
 		this.IdCity=IdCity;
 		this.name=areaName;
+		this.city=city;
 	}
-	
-	
 	
 	public int getIdCity() {
 		return IdCity;
@@ -39,7 +40,14 @@ public class Area extends Aggregate<Building> {
 		this.name = name;
 	}
 
-	public List<Building> getBuildings() throws DatabaseException{
-		return AreaQuerySet.getBuildings(getId());
+	public void getBuildings() throws DatabaseException, InterruptedException{
+		List<Building> list =  AreaQuerySet.getBuildings(getId(), this);
+		for(Building b : list)
+			subs.put(b.getId(), b);
 	};
+	
+	public City getCity(){
+		return city;
+	}
+	
 }

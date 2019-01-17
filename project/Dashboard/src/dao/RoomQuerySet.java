@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import model.Room;
 import model.Sensor;
 
 public class RoomQuerySet {
 
-	public static LinkedList<Sensor> getRoomSensors(int IdRoom) throws DatabaseException {
+	public static LinkedList<Sensor> getRoomSensors(int IdRoom, Room room) throws DatabaseException {
 		Connection con = null;
 
 		try {
@@ -30,7 +31,7 @@ public class RoomQuerySet {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				sensors.add(new Sensor(rs.getInt("ID_sensor"), rs.getBoolean("status"), rs.getInt("type"), rs.getShort("threshold"), 0,rs.getInt("ID_room")));
+				sensors.add(new Sensor(rs.getInt("ID_sensor"), rs.getBoolean("status"), rs.getInt("type"), rs.getShort("threshold"), 0,rs.getInt("ID_room"), room));
 			}
 
 		} catch (SQLException e) {

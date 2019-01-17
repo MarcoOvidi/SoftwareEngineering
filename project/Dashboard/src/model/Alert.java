@@ -1,20 +1,26 @@
 package model;
 
-public class Warning {
-	int idSensor;
-	int idRoom;
-	int idFloor;
-	int idBuilding;
-	int idArea;
-	int idCity;
+public class Alert{
 	
-	public Warning(int idSensor, int idRoom, int idFloor, int idBuilding, int idArea, int idCity){
+	public static int c=0;
+	
+	private int id=0;
+	private int idSensor;
+	private int idRoom;
+	private int idFloor;
+	private int idBuilding;
+	private int idArea;
+	private int idCity;
+	
+	public Alert(int idSensor, int idRoom, int idFloor, int idBuilding, int idArea, int idCity){
 		this.idSensor=idSensor;
 		this.idRoom=idRoom;
 		this.idFloor=idFloor;
 		this.idBuilding=idBuilding;
 		this.idArea=idArea;
 		this.idCity=idCity;
+		this.id=c;
+		c++;
 	}
 	
 	int getIdSensor() {
@@ -39,6 +45,10 @@ public class Warning {
 	
 	int getIdCity() {
 		return idCity;
+	}
+	
+	public int getId(){
+		return id;
 	}
 
 }

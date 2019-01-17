@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import model.Room;
 import model.Sensor;
 
 public class SensorQuerySet {
@@ -96,7 +97,7 @@ public class SensorQuerySet {
 	 * Get all sensors
 	 * @throws DatabaseException
 	 */
-	public static LinkedList<Sensor> getSensors(int i) throws DatabaseException {
+	public static LinkedList<Sensor> getSensors(int i, Room room) throws DatabaseException {
 		Connection con = null;
 
 		try {
@@ -117,7 +118,7 @@ public class SensorQuerySet {
 
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				sensors.add(new Sensor(rs.getInt("ID_sensor"), rs.getBoolean("status"), rs.getInt("type"), rs.getShort("threshold"),0, rs.getInt("ID_room")));
+				sensors.add(new Sensor(rs.getInt("ID_sensor"), rs.getBoolean("status"), rs.getInt("type"), rs.getShort("threshold"),0, rs.getInt("ID_room"), room));
 			}
 
 		} catch (SQLException e) {

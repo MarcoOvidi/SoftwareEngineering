@@ -1,18 +1,20 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 abstract class Aggregate<T>{
 	private int id;
 	private int sensorsNumber;
 	private String name;
 	private char status; 
-	private List<T> subs = new ArrayList<T>();
+	protected Map<Integer,T> subs = new HashMap<Integer,T>();
 	
 	public Aggregate(int id) {
 		this.id=id;
-	}
+	};
 	
 	public int getId() {
 		return id;
@@ -22,10 +24,6 @@ abstract class Aggregate<T>{
 		return name;
 	};
 	
-	public List<T> getArea(){
-		return subs;
-	};
-	
 	public char getStatus(){
 		return status;
 	};
@@ -33,4 +31,10 @@ abstract class Aggregate<T>{
 	public int getSensorsNumber() {
 		return sensorsNumber;
 	};
+	
+	public Map<Integer,T> getSubs(){
+		return subs;
+	};
+	
+	
 }

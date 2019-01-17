@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.Cache;
+import controller.Cache2;
 import controller.Checker;
 import model.Sensor;
 
 /**
  * Servlet implementation class RequestCounter
  */
-@WebServlet("/RequestHandler")
-public class RequestHandler extends HttpServlet {
+@WebServlet("/SignalHandler")
+public class SignalHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RequestHandler() {
+    public SignalHandler() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +32,9 @@ public class RequestHandler extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		
+		System.out.println(request.getParameter("id"));
+		/*
 		try {
 			
 		int id=0,value=0;
@@ -41,13 +43,15 @@ public class RequestHandler extends HttpServlet {
 			{
 			id=Integer.parseInt(request.getParameter("id"));
 			value=Integer.parseInt(request.getParameter("value"));
-			Sensor s= new Sensor(id,value);
-			Checker.sensorTreshold(id,value);
+			//Sensor s= new Sensor(id,value);
+			
+			
+			Checker.newSensorValue(id,value);
 			}
 		response.getWriter().append("5000");
 		
 		}catch(Exception e) {
-		}
+		}*/
 	}
 
 	/**

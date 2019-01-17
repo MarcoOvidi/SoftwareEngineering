@@ -1,5 +1,7 @@
 package model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Sensor {
 
 	private int id;
@@ -8,14 +10,16 @@ public class Sensor {
 	private int treshold;
 	private int value;
 	private int ID_Room;
+	private Room room;
+	
 	// private List<Integer> values = new ArrayList<Integer>();
 
 	public Sensor(int id, int value) {
 		this.id = id;
-		this.value = value;
+		this.value=value;
 	}
 
-	public Sensor(int id, boolean status, Integer type, int treshold, int value, int IdRoom) {
+	public Sensor(int id, boolean status, Integer type, int treshold, int value, int IdRoom, Room room) {
 		super();
 		this.id = id;
 		this.status = status;
@@ -23,6 +27,7 @@ public class Sensor {
 		this.treshold = treshold;
 		this.value=value;
 		this.ID_Room = IdRoom;
+		this.room = room;
 	}
 
 	public int getIdRoom() {
@@ -75,5 +80,13 @@ public class Sensor {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	public Room getRoom() {
+		return room;
+	}
+	
+	public void setRoom(Room room) {
+		this.room=room;
 	}
 }

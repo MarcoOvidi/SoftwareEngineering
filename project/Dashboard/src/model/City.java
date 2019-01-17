@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.AreaQuerySet;
+import dao.BuildingQuerySet;
 import dao.CityQuerySet;
 import dao.DatabaseException;
 
@@ -11,8 +13,9 @@ public class City extends Aggregate<Area> {
 	int IdCity;
 	String name;
 	
-	public City(int id) {
+	public City(int id) throws DatabaseException, InterruptedException {
 		super(id);
+		getAreas();
 	}
 	
 	public City(int idCity, int IdCity, String name) {
@@ -37,9 +40,10 @@ public class City extends Aggregate<Area> {
 		this.name = name;
 	}
 
-	public List<Area> getAreas() throws DatabaseException {
-		
-		return CityQuerySet.getAreas(getId());
+	public void getAreas() throws DatabaseException, InterruptedException{
+		List<Area> list =  CityQuerySet.getAreas(getId(), this);
+		for(Area b : list)
+			subs.put(b.getId(), b);
 	};
 
 }

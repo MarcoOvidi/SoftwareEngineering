@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import model.Area;
 import model.Building;
 
 public class AreaQuerySet {
@@ -15,8 +16,9 @@ public class AreaQuerySet {
 	 * @param IDArea
 	 * @return
 	 * @throws DatabaseException
+	 * @throws InterruptedException 
 	 */
-	public static LinkedList<Building> getBuildings(int IDArea) throws DatabaseException {
+	public static LinkedList<Building> getBuildings(int IDArea, Area area) throws DatabaseException, InterruptedException {
 		Connection con = null;
 
 		try {
@@ -35,7 +37,7 @@ public class AreaQuerySet {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				buildings.add(new Building(rs.getInt("ID"), rs.getString("street"), rs.getInt("number"), rs.getInt("ID_Area")));
+				buildings.add(new Building(rs.getInt("ID"), rs.getString("street"), rs.getInt("number"), rs.getInt("ID_Area"), area));
 			}
 
 		} catch (SQLException e) {

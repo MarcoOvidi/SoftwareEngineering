@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import model.Floor;
 import model.Room;
 
 public class FloorQuerySet {
@@ -15,8 +16,9 @@ public class FloorQuerySet {
 	 * @param IDArea
 	 * @return
 	 * @throws DatabaseException
+	 * @throws InterruptedException 
 	 */
-	public static LinkedList<Room> getRooms(int IDFloor) throws DatabaseException {
+	public static LinkedList<Room> getRooms(int IDFloor, Floor floor) throws DatabaseException, InterruptedException {
 		Connection con = null;
 
 		try {
@@ -35,7 +37,7 @@ public class FloorQuerySet {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				rooms.add(new Room(rs.getInt("ID"), rs.getInt("number"), rs.getInt("ID_floor")));
+				rooms.add(new Room(rs.getInt("ID"), rs.getInt("number"), rs.getInt("ID_floor"), floor));
 			}
 
 		} catch (SQLException e) {
