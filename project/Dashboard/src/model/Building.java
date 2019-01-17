@@ -1,11 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dao.AreaQuerySet;
-import dao.BuildingQuerySet;
-import dao.DatabaseException;
+import java.util.Map;
 
 public class Building extends Aggregate<Floor> {
 	String street;
@@ -13,13 +8,12 @@ public class Building extends Aggregate<Floor> {
 	int IDArea;
 	Area area;
 
-	public Building(int id) throws DatabaseException {
+	public Building(int id) {
 		super(id);
 	};
 
-	public Building(int idBuilding, String street, int civicNumber, int IDArea, Area area) throws DatabaseException, InterruptedException {
+	public Building(int idBuilding, String street, int civicNumber, int IDArea, Area area) {
 		super(idBuilding);
-		getFloors();
 		this.street = street;
 		this.civicNumber = civicNumber;
 		this.IDArea = IDArea;
@@ -50,10 +44,8 @@ public class Building extends Aggregate<Floor> {
 		IDArea = iDArea;
 	}
 	
-	public void getFloors() throws DatabaseException, InterruptedException{
-		List<Floor> list =  BuildingQuerySet.getFloors(getId(), this);
-		for(Floor b : list)
-			subs.put(b.getId(), b);
+	public Map<Integer, Floor> getFloors() {
+		return this.getSubs();
 	};
 	
 	public Area getArea() {

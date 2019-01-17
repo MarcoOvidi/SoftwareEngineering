@@ -1,10 +1,7 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import dao.AreaQuerySet;
-import dao.BuildingQuerySet;
 import dao.CityQuerySet;
 import dao.DatabaseException;
 
