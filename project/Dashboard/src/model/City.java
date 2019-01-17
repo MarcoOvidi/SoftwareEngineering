@@ -1,18 +1,14 @@
 package model;
 
-import java.util.List;
-
-import dao.CityQuerySet;
-import dao.DatabaseException;
+import java.util.Map;
 
 public class City extends Aggregate<Area> {
 
 	int IdCity;
 	String name;
 	
-	public City(int id) throws DatabaseException, InterruptedException {
+	public City(int id) {
 		super(id);
-		getAreas();
 	}
 	
 	public City(int idCity, int IdCity, String name) {
@@ -37,11 +33,9 @@ public class City extends Aggregate<Area> {
 		this.name = name;
 	}
 
-	public void getAreas() throws DatabaseException, InterruptedException{
-		List<Area> list =  CityQuerySet.getAreas(getId(), this);
-		for(Area b : list)
-			subs.put(b.getId(), b);
-	};
+	public Map<Integer,Area> getAreas() {
+		return this.getSubs();
+	}
 
 }
 
