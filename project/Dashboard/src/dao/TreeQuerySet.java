@@ -21,9 +21,9 @@ public class TreeQuerySet {
 	private static Map<Integer, Floor> floors = new HashMap<Integer, Floor>();
 	private static Map<Integer, Building> buildings= new HashMap<Integer, Building>();
 	private static Map<Integer, Area> areas= new HashMap<Integer, Area>();
-	static City city= null;
+	private static City city= null;
 	
-	public static City getTree() throws DatabaseException, InterruptedException {
+	public static void getTree() throws DatabaseException, InterruptedException {
 		Connection con = null;
 		
 		try {
@@ -44,7 +44,10 @@ public class TreeQuerySet {
 				System.out.println(rs.getInt("s.ID_sensor")+" "+rs.getBoolean("s.status")+" "+rs.getInt("s.type")+" "+rs.getShort("s.threshold")+rs.getInt("s.ID_room"));
 				getSensors();
 			}
-
+			
+			//Cache.setSensorMap(sensors);
+			Cache.setRoomMap(rooms);
+			
 		} catch (SQLException e) {
 			throw new DatabaseException("Errore di esecuzione query", e);
 		} finally {
@@ -57,7 +60,14 @@ public class TreeQuerySet {
 				DBConnection.logDatabaseException(new DatabaseException("Errore sulle risorse", e));
 			}
 		}
-		return city;
+		
+		rooms=null;
+		floors=null;
+		buildings=null;
+		areas=null;
+		
+		Cache.setRoot(city);
+		
 	}
 	
 	public static void getSensors() {
@@ -88,12 +98,6 @@ public class TreeQuerySet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		return r;
@@ -109,12 +113,6 @@ public class TreeQuerySet {
 			floors.put(rs.getInt("f.ID"), f);
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -133,12 +131,6 @@ public class TreeQuerySet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return b;
 	}
@@ -150,16 +142,10 @@ public class TreeQuerySet {
 			if(areas.containsKey(rs.getInt("a.ID")))
 				return areas.get(rs.getInt("a.ID"));
 			
-			a = new Area(rs.getInt("a.ID"), rs.getInt("a.ID_city"), rs.getString("a.name"), getCity());
+			a = new Area(rs.getInt("a.ID"), rs.getString("a.name"), rs.getInt("a.ID_city"), getCity());
 			areas.put(rs.getInt("a.ID"), a);
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -174,21 +160,10 @@ public class TreeQuerySet {
 		return city;
 		
 		City c=null;
-		try {
-			c = new City(1);
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		c = new City(1);
 		return c;
 	}		
 	
-	
-
-
 }
 
 

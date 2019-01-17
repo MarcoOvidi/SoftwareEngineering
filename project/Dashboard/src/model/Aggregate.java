@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 abstract class Aggregate<T>{
@@ -36,5 +34,7 @@ abstract class Aggregate<T>{
 		return subs;
 	};
 	
-	
+	public boolean hasSub(int id) {
+		return subs.containsKey(id);
+	}
 }

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Sensor {
 
 	private int id;
@@ -9,7 +7,7 @@ public class Sensor {
 	private Integer type;
 	private int treshold;
 	private int value;
-	private int ID_Room;
+	private int ID_Room; //TODO remove, redundant
 	private Room room;
 	
 	// private List<Integer> values = new ArrayList<Integer>();

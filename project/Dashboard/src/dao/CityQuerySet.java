@@ -31,7 +31,7 @@ public class CityQuerySet {
 
 			while (rs.next()) {
 				System.out.println(rs);
-				areas.add(new Area(rs.getInt("ID"), rs.getInt("ID_city"), rs.getString("name"), city));
+				areas.add(new Area(rs.getInt("ID"), rs.getString("name"), rs.getInt("ID_city"), city));
 			}
 
 		} catch (SQLException e) {

@@ -1,30 +1,23 @@
 package model;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import controller.Cache;
-import controller.Cache2;
-import dao.DatabaseException;
-import dao.RoomQuerySet;
+import java.util.Map;
 
 public class Room extends Aggregate<LockedSensor> {
 	int number;
 	int IdFloor;
 	Floor floor;
 
-	public Room(int id) throws DatabaseException, InterruptedException {
+	public Room(int id) {
 		super(id);
 		getSensors();
 	}
 
-	public Room(int idRoom, int roomNumber, int IdFloor, Floor floor) throws DatabaseException, InterruptedException {
+	public Room(int idRoom, int roomNumber, int IdFloor, Floor floor) {
 		super(idRoom);
 		this.number = roomNumber;
 		this.IdFloor = IdFloor;
 		this.floor = floor;
-		getSensors();
 	}
 	
 	public int getNumber() {
@@ -43,9 +36,8 @@ public class Room extends Aggregate<LockedSensor> {
 		IdFloor = idFloor;
 	}
 
-	public void getSensors() throws DatabaseException, InterruptedException {
-		System.out.println("connecting sensors");
-		subs = Cache.getSensorsByRoom(this);
+	public Map<Integer,LockedSensor> getSensors() {
+		return this.getSubs();
 	};
 	
 	public Floor getFloor() {
