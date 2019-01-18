@@ -47,7 +47,7 @@
 	//visualizza i sensori
 	if(request.getParameterMap().containsKey("room")){
 		  response.setIntHeader("Refresh", 1); //time in seconds
-		out.println(AggregateHandler.listSensors(request.getParameter("room")));
+		//out.println(AggregateHandler.listSensors(request.getParameter("room")));
 		}
 	%>	
 

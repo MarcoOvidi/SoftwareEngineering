@@ -25,20 +25,20 @@ public class Start extends HttpServlet {
     public Start() {
         super();
         // TODO Auto-generated constructor stub
-        Cache.init();
-    }
+        }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		try {
+		Cache.init();
+		/*try {
 			TreeQuerySet.getTree();
 		} catch (DatabaseException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		/*try {
 			MultiThreadedServer server = new MultiThreadedServer(3001);
 			new Thread(server).start();

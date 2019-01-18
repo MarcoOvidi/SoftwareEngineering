@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import dao.DatabaseException;
 import dao.SensorQuerySet;

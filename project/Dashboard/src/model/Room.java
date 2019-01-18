@@ -43,5 +43,15 @@ public class Room extends Aggregate<LockedSensor> {
 	public Floor getFloor() {
 		return floor;
 	}
+	
+	public void addProblem(LockedSensor ls) {
+		Sensor s = ls.getSensor();
+		if(problems.containsKey(s.getIdRoom())) {
+			problems.get(s.getIdRoom()).addSensor(ls);
+		}
+		else {
+			problems.put(s.getIdRoom(), new Problem(ls));
+		}
+	}
 }
 

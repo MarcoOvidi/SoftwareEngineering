@@ -1,54 +1,40 @@
 package model;
 
+import java.time.Instant;
+import java.util.TreeMap;
+
 public class Alert{
+
+	private int type;
+	private Room room;
+	private TreeMap<Sensor,Instant> sensors;
 	
-	public static int c=0;
-	
-	private int id=0;
-	private int idSensor;
-	private int idRoom;
-	private int idFloor;
-	private int idBuilding;
-	private int idArea;
-	private int idCity;
-	
-	public Alert(int idSensor, int idRoom, int idFloor, int idBuilding, int idArea, int idCity){
-		this.idSensor=idSensor;
-		this.idRoom=idRoom;
-		this.idFloor=idFloor;
-		this.idBuilding=idBuilding;
-		this.idArea=idArea;
-		this.idCity=idCity;
-		this.id=c;
-		c++;
+	public Alert(Sensor sensor){
+		sensors = new TreeMap<Sensor,Instant>();
+		sensors.put(sensor,Instant.now());
+		type = sensor.getType();
+		room = sensor.getRoom();
 	}
 	
-	int getIdSensor() {
-		return idSensor;
+	public void addSensor(Sensor sensor) {
+		if (sensor.getType() != getType())
+			return;
+		if (sensor.getRoom() != getRoom())
+			return;
+		
+		sensors.put(sensor,Instant.now());
 	}
 	
-	int getIdRoom() {
-		return idRoom;
+	public int getType() {
+		return type;
 	}
 	
-	int getIdFloor() {
-		return idFloor;
+	public Room getRoom() {
+		return room;
 	}
 	
-	int getIdBuilding() {
-		return idBuilding;
-	}
-	
-	int getIdArea() {
-		return idArea;
-	}
-	
-	int getIdCity() {
-		return idCity;
-	}
-	
-	public int getId(){
-		return id;
+	public int getCount() {
+		return sensors.size();
 	}
 
 }

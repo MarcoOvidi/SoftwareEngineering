@@ -7,7 +7,7 @@ public class Checker {
 		Sensor s = Cache.getSensor(id);
 		if(s!=null) {
 			if(value>s.getTreshold())  
-				Cache.addAlert(s);
+				//Room room = Cache.getRoomByID(s.getIdRoom());
 			s.setValue(value);
 			Cache.setSensor(s);
 		}

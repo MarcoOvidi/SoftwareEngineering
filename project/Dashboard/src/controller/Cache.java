@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import dao.DatabaseException;
-import dao.SensorQuerySet;
 import dao.TreeQuerySet;
-import model.Alert;
 import model.Area;
 import model.Building;
 import model.City;
@@ -21,17 +19,17 @@ import model.Sensor;
 public class Cache{
 	private static City root;
 	private static Map<Integer,LockedSensor> sensorMap = new HashMap<Integer,LockedSensor>();
-	private static Map<Integer,Alert> alerts = new HashMap<Integer,Alert>();
 	private static Map<Integer,Room> roomMap; 
 	
 	private static ReentrantReadWriteLock sensorMapLock = new ReentrantReadWriteLock();
 	public static ReentrantReadWriteLock treeLock = new ReentrantReadWriteLock();
-	public static ReentrantReadWriteLock alertsLock = new ReentrantReadWriteLock();
 	
 	
 	public static void init() {
 		try {
 			TreeQuerySet.getTree();
+			System.out.println(sensorMap.size());
+			System.out.println(roomMap.size());
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,18 +39,22 @@ public class Cache{
 		}
 	}
 	
-	//return the areas
+	
+	//-----------------------------------------------------User methods---------------------------------------------------------------------//
+	
+	//return the areas to the user
 	public static List<Area> getAreas() {
 		List<Area> list;
 		treeLock.readLock().lock();
 			City city= Cache.getRoot();
 			Map<Integer, Area> map = city.getSubs();
 			 list= new ArrayList<Area>(map.values());
+			 
 		treeLock.readLock().unlock();
 		return list;
 	}
 	
-	//return the buildings
+	//return the buildings to the user
 	public static List<Building> getBuildings(int id_area) {
 		List<Building> list;
 		treeLock.readLock().lock();
@@ -64,7 +66,7 @@ public class Cache{
 		return list;
 	}
 	
-	//return the floors
+	//return the floors buildings to the user
 	public static List<Floor> getFloors(int id_area, int id_building) {
 		List<Floor> list;
 		treeLock.readLock().lock();
@@ -78,7 +80,7 @@ public class Cache{
 		
 	}
 	
-	//return the rooms 
+	//return the rooms buildings to the user
 	public static List<Room> getRooms(int id_area, int id_building, int id_floor) {
 		List<Room> list;
 		treeLock.readLock().lock();
@@ -92,6 +94,8 @@ public class Cache{
 		return list;
 		
 	}
+	
+	//--------------------------------------------------------------------------------------------------------//
 	
 	//set room map
 	public static void setRoomMap(Map<Integer,Room> rmap){
@@ -174,38 +178,32 @@ public class Cache{
 	}
 
 	public static Sensor getSensor(int id) throws InterruptedException {
+		treeLock.readLock().lock(); // inefficient but avoids deadlocks
 		sensorMapLock.readLock().lock();
 		Sensor s=null;
 		LockedSensor ls = sensorMap.get(id);
 		ls.getLock().readLock().lock();
-		treeLock.readLock().lock();
-		s=new Sensor(ls.getSensor().getId(), ls.getSensor().getStatus(), ls.getSensor().getType(), ls.getSensor().getTreshold(), ls.getSensor().getValue(), ls.getSensor().getIdRoom(), ls.getSensor().getRoom());
-		treeLock.readLock().unlock();
+		
+		//deep copy of sensor
+		s=new Sensor(ls.getSensor().getId(), ls.getSensor().getStatus(), ls.getSensor().getType(), ls.getSensor().getTreshold(), ls.getSensor().getValue(), ls.getSensor().getIdRoom(), null);
+		
 		ls.getLock().readLock().unlock();
 		sensorMapLock.readLock().unlock();
+		treeLock.readLock().unlock();
 		return s;
+	}
+
+	public static LockedSensor getLockedSensor(int id) throws InterruptedException {
+		sensorMapLock.readLock().lock();
+		LockedSensor ls = sensorMap.get(id);
+		sensorMapLock.readLock().unlock();
+		return ls;
 	}
 	
 	public static void removeSensor(int id) {
 		sensorMapLock.writeLock().lock();
 		sensorMap.remove(id);
 		sensorMapLock.writeLock().unlock();
-	}
-	
-	public static void addAlert(Sensor s) {
-		treeLock.readLock().lock();
-		Room r = s.getRoom();
-		Floor f = r.getFloor();
-		Building b = f.getBuilding();
-		Area a = b.getArea();
-		City c = a.getCity();
-		
-		alertsLock.writeLock().lock();
-		Alert alert=new Alert(s.getId(),r.getId(),f.getId(),b.getId(),a.getId(),c.getId());
-		alerts.put(alert.getId(),alert);
-		alertsLock.writeLock().unlock();
-		
-		treeLock.readLock().unlock();
 	}
 	
 	/*
@@ -252,14 +250,14 @@ public class Cache{
 	}
 	
 	public static Map<Integer, LockedSensor> getSensorsByRoom(int roomID) throws InterruptedException{
-		return getRoomByID(roomID).getSubs(); 
-	}
-
-	public static Room getRoomByID(int roomID) {
-		// TODO Auto-generated method stub
 		treeLock.readLock().lock();
-		Room room = roomMap.get(roomID);
+		Map<Integer, LockedSensor> res = roomMap.get(roomID).getSubs();
 		treeLock.readLock().unlock();
-		return room;
+		return res;
 	}
+	
+	public static int sensorsNumber () {
+		return sensorMap.size();
+	}
+	
 }

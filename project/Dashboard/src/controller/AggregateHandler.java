@@ -11,7 +11,6 @@ public class AggregateHandler {
 	
 	public static String listAreas() throws DatabaseException{
 			String tails="<div class=tail onclick=\"location.href='newAggregate.jsp?aggregateType=area' \"'>New Area</div> ";
-			 Cache.getAreas();
 			List<Area> areas = Cache.getAreas();
 			for(Area curr: areas)
 				tails=tails+"<div class=tail onclick=\"location.href='?area="+curr.getId()+"'\"><div class=tailname >"+curr.getName()+"</div></div><br />";
