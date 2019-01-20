@@ -4,9 +4,9 @@ import java.util.Map;
 	
 
 public class Area extends Aggregate<Building> {
-	private int IdCity;
-	private String name;
-	private City city;
+	protected int IdCity;
+	protected String name;
+	protected City city;
 	
 	public Area(int id){
 		super(id);
@@ -17,6 +17,13 @@ public class Area extends Aggregate<Building> {
 		this.IdCity=IdCity;
 		this.name=areaName;
 		this.city=city;
+	}
+	
+	// shallow copy
+	public Area (Area area) {
+		super(area.id);
+		this.IdCity = area.IdCity;
+		this.name= new String (area.name);
 	}
 	
 	public int getIdCity() {

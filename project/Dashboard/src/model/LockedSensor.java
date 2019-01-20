@@ -21,4 +21,17 @@ public class LockedSensor {
 	public ReentrantReadWriteLock getLock() {
 		return l;
 	}
+
+	public void readLock() {
+		l.readLock().lock();
+	}
+	public void readUnlock() {
+		l.readLock().unlock();
+	}
+	public void writeLock() {
+		l.writeLock().lock();
+	}
+	public void writeUnlock() {
+		l.writeLock().unlock();
+	}
 }

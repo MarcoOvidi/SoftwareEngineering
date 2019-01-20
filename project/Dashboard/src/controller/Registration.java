@@ -2,15 +2,11 @@ package controller;
 
 import dao.DatabaseException;
 import dao.SensorQuerySet;
-import model.Room;
-import model.Sensor;
 public class Registration {
- 
 
-public static void sensorregistration(int id, boolean status, Integer type, int treshold, int value, int roomID)throws InterruptedException, DatabaseException {
-	/*Room room = Cache.getRoomByID(roomID);
-	Sensor s = new Sensor(id,status,type,treshold,value,roomID,room);
-	Cache.insertSensor(s); // insert the new sensor in the cache
-	SensorQuerySet.createPlacedSensor (s) ; // insert the new sensor in the database
-	*/}
+public static void sensorRegistration(int ID_sensor, boolean status, Integer type, int treshold, int value, int roomID)throws InterruptedException, DatabaseException {
+	SensorQuerySet.createPlacedSensor (ID_sensor, status, type, treshold, value, roomID) ; // insert the new sensor in the database
+	
+	//Cache.insertSensor(id, status, type, treshold, value, roomID); // insert the new sensor in the cache
+	}
 }

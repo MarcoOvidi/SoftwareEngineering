@@ -3,10 +3,10 @@ package model;
 import java.util.Map;
 
 public class Building extends Aggregate<Floor> {
-	String street;
-	int civicNumber;
-	int IDArea;
-	Area area;
+	protected String street;
+	protected int civicNumber;
+	protected int IDArea;
+	protected Area area;
 
 	public Building(int id) {
 		super(id);
@@ -19,6 +19,13 @@ public class Building extends Aggregate<Floor> {
 		this.IDArea = IDArea;
 		this.area = area;
 	};
+	
+	public Building(Building building) {
+		super(building.id);
+		this.street = new String(building.street);
+		this.civicNumber = building.civicNumber;
+		this.IDArea = building.IDArea;
+	}
 
 	public String getStreet() {
 		return street;

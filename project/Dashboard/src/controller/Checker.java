@@ -1,15 +1,20 @@
 package controller;
+import java.time.Instant;
+
 import model.Sensor;
 
 public class Checker {
+	
 	public static void newSensorValue(int id, int value) throws InterruptedException{
+		//se null?
+		Instant valueInstant = Instant.now();
+		int threshold = Cache.setSensorValue(id, value,valueInstant);
+		//TODO insert in time series db
 		
-		Sensor s = Cache.getSensor(id);
-		if(s!=null) {
-			if(value>s.getTreshold())  
-				//Room room = Cache.getRoomByID(s.getIdRoom());
-			s.setValue(value);
-			Cache.setSensor(s);
+		if(value > threshold) {
+			//System.out.println("over");
+			Cache.addProblem(id);
+
 		}
 	}
 	

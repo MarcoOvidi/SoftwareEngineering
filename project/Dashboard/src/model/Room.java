@@ -4,10 +4,10 @@ package model;
 import java.util.Map;
 
 public class Room extends Aggregate<LockedSensor> {
-	int number;
-	int IdFloor;
-	Floor floor;
-
+	protected int number;
+	protected int IdFloor;
+	protected Floor floor;
+	
 	public Room(int id) {
 		super(id);
 		getSensors();
@@ -18,6 +18,12 @@ public class Room extends Aggregate<LockedSensor> {
 		this.number = roomNumber;
 		this.IdFloor = IdFloor;
 		this.floor = floor;
+	}
+	
+	public Room(Room room) {
+		super(room.id);
+		this.number = room.number;
+		this.IdFloor = room.IdFloor;
 	}
 	
 	public int getNumber() {
@@ -45,7 +51,7 @@ public class Room extends Aggregate<LockedSensor> {
 	}
 	
 	public void addProblem(LockedSensor ls) {
-		Sensor s = ls.getSensor();
+		Sensor s = ls.getSensor(); //FIXME missing lock
 		if(problems.containsKey(s.getIdRoom())) {
 			problems.get(s.getIdRoom()).addSensor(ls);
 		}
@@ -53,5 +59,16 @@ public class Room extends Aggregate<LockedSensor> {
 			problems.put(s.getIdRoom(), new Problem(ls));
 		}
 	}
+
+	public void setMissing(LockedSensor ls) {
+		Sensor s = ls.getSensor(); //FIXME missing lock
+		if(problems.containsKey(s.getIdRoom())) {
+			problems.get(s.getIdRoom()).addMissingSensor(ls);
+		}
+		else {
+			problems.put(s.getIdRoom(), new Problem(ls, true));
+		}
+	}
+	
 }
 

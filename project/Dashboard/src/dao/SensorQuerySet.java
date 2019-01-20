@@ -17,7 +17,7 @@ public class SensorQuerySet {
 	 * @param sensor
 	 * @throws DatabaseException
 	 */
-	public static void createPlacedSensor(Sensor sensor) throws DatabaseException {
+	public static void createPlacedSensor(int id, boolean status, Integer type, int treshold, int value, int roomID) throws DatabaseException {
 		Connection con = null;
 
 		try {
@@ -30,11 +30,11 @@ public class SensorQuerySet {
 
 		try {
 			ps = con.prepareStatement("INSERT INTO sensor(ID_sensor,status,threshold,type,ID_room) value(?,?,?,?,?);");
-			ps.setInt(1, sensor.getId());
-			ps.setBoolean(2, sensor.getStatus());
-			ps.setInt(3, sensor.getTreshold());
-			ps.setInt(4, sensor.getType());
-			ps.setInt(5, sensor.getIdRoom());
+			ps.setInt(1, id);
+			ps.setBoolean(2, status);
+			ps.setInt(3, treshold);
+			ps.setInt(4, type);
+			ps.setInt(5, roomID);
 
 			ps.executeUpdate();
 

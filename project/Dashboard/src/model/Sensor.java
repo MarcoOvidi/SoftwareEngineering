@@ -1,14 +1,19 @@
 package model;
 
+import java.time.Instant;
+
 public class Sensor {
 
-	private int id;
-	private boolean status;
-	private Integer type;
-	private int treshold;
-	private int value;
-	private int ID_Room; //TODO remove, redundant
-	private Room room;
+	protected int id;
+	protected boolean status;
+	protected Integer type;
+	protected int treshold;
+	protected int value;
+	protected int ID_Room; //TODO remove, redundant
+	protected Room room;
+	protected Instant lastValue;
+	
+	private String color = "";
 	
 	// private List<Integer> values = new ArrayList<Integer>();
 
@@ -21,11 +26,22 @@ public class Sensor {
 		super();
 		this.id = id;
 		this.status = status;
-		this.type = type;
+		this.type = new Integer (type);
 		this.treshold = treshold;
 		this.value=value;
 		this.ID_Room = IdRoom;
 		this.room = room;
+	}
+	
+	public Sensor(Sensor sensor) {
+		super();
+		this.id = sensor.id;
+		this.status = sensor.status;
+		this.type = new Integer (sensor.type);
+		this.treshold = sensor.treshold;
+		this.value=sensor.value;
+		this.ID_Room = sensor.ID_Room;
+		this.room = sensor.room;
 	}
 
 	public int getIdRoom() {
@@ -76,7 +92,7 @@ public class Sensor {
 		this.treshold = treshold;
 	}
 
-	public void setValue(int value) {
+	public void setValue(int value, Instant valueInstant) {
 		this.value = value;
 	}
 	
@@ -87,4 +103,17 @@ public class Sensor {
 	public void setRoom(Room room) {
 		this.room=room;
 	}
+
+	public Instant getLastValue() {
+		return lastValue;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import controller.Cache2;
 import controller.Checker;
 import model.Sensor;
 
@@ -33,8 +32,8 @@ public class SignalHandler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println(request.getParameter("id"));
-		/*
+		//System.out.println(request.getParameter("id"));
+		
 		try {
 			
 		int id=0,value=0;
@@ -43,15 +42,16 @@ public class SignalHandler extends HttpServlet {
 			{
 			id=Integer.parseInt(request.getParameter("id"));
 			value=Integer.parseInt(request.getParameter("value"));
+			//System.out.println(id+"\t"+value);
 			//Sensor s= new Sensor(id,value);
 			
 			
 			Checker.newSensorValue(id,value);
 			}
-		response.getWriter().append("5000");
+		//response.getWriter().append("5000");
 		
 		}catch(Exception e) {
-		}*/
+		}
 	}
 
 	/**

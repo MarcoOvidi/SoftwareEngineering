@@ -3,9 +3,9 @@ package model;
 import java.util.Map;
 
 public class Floor extends Aggregate<Room> {
-	int floorNumber;
-	int IdBuilding;
-	Building building;
+	protected int floorNumber;
+	protected int IdBuilding;
+	protected Building building;
 
 	public Floor(int id) {
 		super(id);
@@ -18,6 +18,13 @@ public class Floor extends Aggregate<Room> {
 		this.IdBuilding = IdBuilding;
 		this.building = building;
 	};
+	
+	// shallow copy
+	public Floor(Floor floor) {
+		super(floor.id);
+		this.floorNumber = floor.floorNumber;
+		this.IdBuilding = floor.IdBuilding;
+	}
 
 	public int getIdBuilding() {
 		return IdBuilding;
